@@ -82,9 +82,9 @@ curl -X POST "https://api.hellohop.app/v1/sessions/<CHANNEL_ID>/webhooks/test" \
 ## Example workflows
 
 - **Order updates:** a Shopify or WooCommerce trigger feeds HelloHop > Send Text, with the order number as the idempotency key. See [shipping updates](https://hellohop.app/use-cases/whatsapp-order-shipping-updates-shopify-woocommerce).
-- **Auto reply:** HelloHop Trigger (message, ignore messages from me) > IF on `payload.text` > HelloHop > Send Text with `quoted` set to `payload.id`.
-- **Chatbot:** HelloHop Trigger > an AI node > Send Text.
-- **Sheet to group:** a Google Sheets row feeds Group > Add Participants, then a filter on `ok` is false lists who was not added. See the [group API](https://hellohop.app/use-cases/whatsapp-group-api).
+- **Auto reply:** HelloHop Trigger (message, ignore messages from me) > IF on `payload.text` > HelloHop > Send Text with `quoted` set to `payload.id`. See [support auto reply](https://hellohop.app/use-cases/whatsapp-support-auto-reply-business-hours).
+- **Chatbot:** HelloHop Trigger > an AI node > Send Text. See [AI chatbot](https://hellohop.app/use-cases/whatsapp-ai-chatbot-chatgpt-claude).
+- **Sheet to group:** a Google Sheets row feeds Group > Add Participants, then a filter on `ok` is false lists who was not added. See [Google Sheets automation](https://hellohop.app/use-cases/whatsapp-google-sheets-automation) and the [group API](https://hellohop.app/use-cases/whatsapp-group-api).
 
 Message and add only people who agreed to hear from you.
 
