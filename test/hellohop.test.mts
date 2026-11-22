@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 
+import { buildIdempotencyKey } from '../nodes/HelloHop/GenericFunctions.ts';
 import { HelloHop } from '../nodes/HelloHop/HelloHop.node.ts';
 import { HelloHopApi } from '../credentials/HelloHopApi.credentials.ts';
 import { HelloHopTrigger, isFromHelloHop } from '../nodes/HelloHopTrigger/HelloHopTrigger.node.ts';
@@ -198,4 +199,21 @@ test('trigger: unsubscribed events and own messages are acknowledged and dropped
 	const res = await trigger.webhook.call(b.ctx);
 	assert.equal(res.workflowData, undefined);
 	assert.equal(b.out.status, 0);
+});
+
+test('oversized user keys preserve each item index and the entire value', async () => {
+	const value = 'x'.repeat(251);
+	const tr = t({ canned: { status: 200, body: { id: 'A1' } } });
+	const params = sendText({ options: { idempotencyKey: value } });
+	await run([params, params], tr);
+	const keys = tr.calls.map((call) => String(call.headers['Idempotency-Key']));
+	assert.notEqual(keys[0], keys[1]);
+	assert.match(keys[0], /^n8n-[a-f0-9]{32}-0$/);
+	assert.match(keys[1], /^n8n-[a-f0-9]{32}-1$/);
+	assert.ok(keys.every((key) => key.length <= 255));
+	assert.equal(buildIdempotencyKey(value, 0, true), keys[0]);
+	assert.notEqual(buildIdempotencyKey(value + 'a', 0, true), keys[0]);
+	assert.equal(buildIdempotencyKey('x'.repeat(249), 0, true), `n8n-${'x'.repeat(249)}-0`);
+	assert.equal(buildIdempotencyKey('x'.repeat(251), 0, false), `n8n-${value}`);
+	assert.match(buildIdempotencyKey('x'.repeat(252), 0, false)!, /^n8n-[a-f0-9]{32}$/);
 });

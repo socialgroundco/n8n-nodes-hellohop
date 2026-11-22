@@ -15,7 +15,8 @@ The npm package does not exist yet, so the trusted publisher cannot be set up be
 1. Open https://www.npmjs.com/package/n8n-nodes-hellohop/access (package **Settings**).
 2. Under **Trusted Publisher** choose **GitHub Actions**.
 3. Organization or user: `socialgroundco`. Repository: `n8n-nodes-hellohop`. Workflow filename: `publish.yml`. Environment: `npm-publish`.
-4. Save. No npm token is stored anywhere.
+4. In **Allowed actions**, below **Environment name**, check **Allow npm publish** before clicking **Set up connection** to save. New trusted publishers allow `npm stage publish` by default; this workflow uses direct `npm publish`, so it needs that explicit permission. See the [npm trusted publishing setup](https://docs.npmjs.com/trusted-publishers/).
+5. No npm token is stored anywhere. The `publish` job in `.github/workflows/publish.yml` uses the `npm-publish` environment, a GitHub-hosted runner, `id-token: write`, Node 22.23.4 and npm 11.21.1 (above npm's OIDC minimums), then runs `npm publish ./*.tgz --provenance --access public`. These match the trusted publisher configuration and **Allow npm publish** permission.
 
 ## Every later release (0.1.1 and on)
 

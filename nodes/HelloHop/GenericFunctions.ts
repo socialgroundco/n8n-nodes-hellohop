@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type { IDataObject, IExecuteFunctions, IHttpRequestMethods } from 'n8n-workflow';
 
 /**
@@ -152,6 +153,7 @@ export function chunk<T>(items: T[], size: number): T[][] {
 /**
  * Deterministic key from a user field. An empty field means no key (an ordinary send).
  * The item index keeps two items with the same value apart inside one run.
+ * Oversized values use a fixed 32-character SHA-256 hex digest, keeping the suffix.
  */
 export function buildIdempotencyKey(
 	userValue: string,
@@ -161,5 +163,7 @@ export function buildIdempotencyKey(
 	const base = userValue.trim();
 	if (!base) return undefined;
 	const key = withIndex ? `n8n-${base}-${itemIndex}` : `n8n-${base}`;
-	return key.slice(0, 255);
+	if (key.length <= 255) return key;
+	const hash = createHash('sha256').update(base).digest('hex').slice(0, 32);
+	return withIndex ? `n8n-${hash}-${itemIndex}` : `n8n-${hash}`;
 }
