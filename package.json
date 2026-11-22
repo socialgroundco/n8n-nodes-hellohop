@@ -1,0 +1,63 @@
+{
+  "name": "n8n-nodes-hellohop",
+  "version": "0.1.0",
+  "description": "n8n community nodes for HelloHop: send WhatsApp messages, read conversations, manage groups and receive signed webhook events.",
+  "license": "MIT",
+  "homepage": "https://hellohop.app",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "hellohop",
+    "whatsapp",
+    "whatsapp-api",
+    "messaging",
+    "webhook"
+  ],
+  "author": {
+    "name": "Socialground",
+    "email": "273111187+socialgroundco@users.noreply.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/socialgroundco/n8n-nodes-hellohop.git"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease",
+    "test": "bash scripts/test-with-prism.sh"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/HelloHopApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/HelloHop/HelloHop.node.js",
+      "dist/nodes/HelloHopTrigger/HelloHopTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "*",
+    "@stoplight/prism-cli": "^5.16.0",
+    "eslint": "9.32.0",
+    "prettier": "3.6.2",
+    "release-it": "^21.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/socialgroundco/n8n-nodes-hellohop/issues"
+  }
+}
