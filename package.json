@@ -32,7 +32,8 @@
     "test": "bash scripts/test-with-prism.sh"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.tsbuildinfo"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
