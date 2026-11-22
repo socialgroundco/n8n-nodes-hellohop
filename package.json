@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-hellohop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community nodes for HelloHop: send WhatsApp messages, read conversations, manage groups and receive signed webhook events.",
   "license": "MIT",
   "homepage": "https://hellohop.app",

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- First release published from GitHub with npm provenance. No code changes. Package no longer ships the TypeScript build cache.
+
 ## 0.1.0
 
 - HelloHop API credential with a read-only credential test.
