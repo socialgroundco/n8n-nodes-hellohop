@@ -30,7 +30,7 @@ export class HelloHop implements INodeType {
 		group: ['output'],
 		version: 1,
 		subtitle: '={{$parameter["resource"] + ": " + $parameter["operation"]}}',
-		description: 'Send WhatsApp messages and manage groups through HelloHop',
+		description: 'Send WhatsApp messages, read conversations and manage groups through HelloHop',
 		defaults: { name: 'HelloHop' },
 		inputs: [NodeConnectionTypes.Main],
 		outputs: [NodeConnectionTypes.Main],

@@ -6,7 +6,7 @@ Nodes: **HelloHop** (actions) and **HelloHop Trigger** (webhook trigger). One cr
 
 ## Install
 
-In n8n, open **Settings > Community Nodes > Install** and enter `n8n-nodes-hellohop`. See the [n8n guide to community nodes](https://docs.n8n.io/integrations/community-nodes/installation/).
+In n8n, open **Settings > Community Nodes > Install** and enter `n8n-nodes-hellohop`. See the [n8n guide to community nodes](https://docs.n8n.io/integrations/community-nodes/installation-and-management).
 
 ## Credentials
 
@@ -40,12 +40,12 @@ Every send and write returns a normalized `outcome`:
 |---|---|
 | `sent` | The API accepted the send (200). `id` and `status` are in the output. |
 | `queued` | Accepted for later sending (202). The result arrives as a `message.status` event. |
-| `done` | A non-send write succeeded. |
+| `done` | A group create, add or remove succeeded. |
 | `retry_later` | Refused before anything happened (429, or a 503 that says nothing was sent). `retryAfterSeconds` is set when the API gives one. |
 | `unknown` | The write may have applied (504, a 409 `idempotency_uncertain`, an ambiguous 503, a timeout). Check before sending again. |
 | `failed` | Refused for good. Fix the request. |
 
-`sent`, `queued` and `done` pass through as normal items. The other outcomes fail the item with the outcome in the message, or, with **Continue On Fail**, come out as an item with `outcome`, `statusCode`, `code` and `error`.
+`sent`, `queued` and `done` pass through as normal items. The other outcomes fail the item and name the outcome in the error message. With **Continue On Fail** on, they come out as an item with `outcome`, `statusCode`, `code` and `error`.
 
 ### Idempotency
 
@@ -71,7 +71,7 @@ curl -X PUT "https://api.hellohop.app/v1/sessions/<CHANNEL_ID>/webhooks" \
   -d '{"receivers":[{"url":"<N8N_WEBHOOK_URL>","events":["message","message.status"],"secret":"<WEBHOOK_SECRET>"}]}'
 ```
 
-Include your other receivers in the list. Then send a signed test event:
+Include your other receivers in the list. Then send a signed test event. The trigger answers 200 and does not start the workflow, so a `delivered` answer confirms the URL and secret:
 
 ```bash
 curl -X POST "https://api.hellohop.app/v1/sessions/<CHANNEL_ID>/webhooks/test" \
@@ -82,11 +82,13 @@ curl -X POST "https://api.hellohop.app/v1/sessions/<CHANNEL_ID>/webhooks/test" \
 ## Example workflows
 
 - **Order updates:** a Shopify or WooCommerce trigger feeds HelloHop > Send Text, with the order number as the idempotency key. See [shipping updates](https://hellohop.app/use-cases/whatsapp-order-shipping-updates-shopify-woocommerce).
-- **Auto reply:** HelloHop Trigger (message, ignore messages from me) > IF on `payload.text` > HelloHop > Send Text with `quoted` set to `payload.id`. See [support auto reply](https://hellohop.app/use-cases/whatsapp-support-auto-reply-business-hours).
-- **Chatbot:** HelloHop Trigger > an AI node > Send Text. See [AI chatbot](https://hellohop.app/use-cases/whatsapp-ai-chatbot-chatgpt-claude).
-- **Sheet to group:** a Google Sheets row feeds Group > Add Participants, then a filter on `ok` is false lists who was not added. See [Google Sheets automation](https://hellohop.app/use-cases/whatsapp-google-sheets-automation).
+- **Auto reply:** HelloHop Trigger (message, ignore messages from me) > IF on `payload.text` > HelloHop > Send Text with `quoted` set to `payload.id`.
+- **Chatbot:** HelloHop Trigger > an AI node > Send Text.
+- **Sheet to group:** a Google Sheets row feeds Group > Add Participants, then a filter on `ok` is false lists who was not added. See the [group API](https://hellohop.app/use-cases/whatsapp-group-api).
 
-More use cases and the full API reference: https://hellohop.app
+Message and add only people who agreed to hear from you.
+
+More use cases: https://hellohop.app. Full API reference: https://hellohop.app/docs
 
 ## Development
 
