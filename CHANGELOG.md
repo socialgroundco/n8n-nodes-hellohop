@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Package author contact is now info@hellohop.app (was an undeliverable GitHub noreply address). No code changes.
+
 ## 0.1.1
 
 - First release published from GitHub with npm provenance. No code changes. Package no longer ships the TypeScript build cache.

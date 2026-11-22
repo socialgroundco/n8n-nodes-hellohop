@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-hellohop",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "n8n community nodes for HelloHop: send WhatsApp messages, read conversations, manage groups and receive signed webhook events.",
   "license": "MIT",
   "homepage": "https://hellohop.app",
@@ -14,8 +14,9 @@
     "webhook"
   ],
   "author": {
-    "name": "Socialground",
-    "email": "273111187+socialgroundco@users.noreply.github.com"
+    "name": "HelloHop",
+    "email": "info@hellohop.app",
+    "url": "https://hellohop.app"
   },
   "repository": {
     "type": "git",
